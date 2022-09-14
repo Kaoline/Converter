@@ -1,12 +1,12 @@
 package kaoline.converter.ui.main
 
-import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import kaoline.converter.R
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class ConverterFragment : Fragment() {
 
@@ -14,7 +14,7 @@ class ConverterFragment : Fragment() {
         fun newInstance() = ConverterFragment()
     }
 
-    private lateinit var viewModel: ConverterViewModel
+   val viewModel: ConverterViewModel by viewModel()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -23,9 +23,9 @@ class ConverterFragment : Fragment() {
         return inflater.inflate(R.layout.fragment_converter, container, false)
     }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        viewModel = ViewModelProvider(this)[ConverterViewModel::class.java]
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
     }
 
 }
