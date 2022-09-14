@@ -2,6 +2,8 @@ package kaoline.converter.ui.main
 
 import androidx.lifecycle.ViewModel
 
-class MainViewModel : ViewModel() {
+class ConverterViewModel : ViewModel() {
+
+
     // TODO: Implement the ViewModel
 }

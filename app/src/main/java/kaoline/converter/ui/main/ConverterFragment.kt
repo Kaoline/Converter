@@ -8,25 +8,24 @@ import android.view.View
 import android.view.ViewGroup
 import kaoline.converter.R
 
-class MainFragment : Fragment() {
+class ConverterFragment : Fragment() {
 
     companion object {
-        fun newInstance() = MainFragment()
+        fun newInstance() = ConverterFragment()
     }
 
-    private lateinit var viewModel: MainViewModel
+    private lateinit var viewModel: ConverterViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        return inflater.inflate(R.layout.fragment_main, container, false)
+        return inflater.inflate(R.layout.fragment_converter, container, false)
     }
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProvider(this).get(MainViewModel::class.java)
-        // TODO: Use the ViewModel
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        viewModel = ViewModelProvider(this)[ConverterViewModel::class.java]
     }
 
 }
