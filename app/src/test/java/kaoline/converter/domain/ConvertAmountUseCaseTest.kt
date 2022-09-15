@@ -1,6 +1,6 @@
 package kaoline.converter.domain
 
-import io.mockk.every
+import io.mockk.coEvery
 import io.mockk.mockk
 import kaoline.converter.domain.model.Amount
 import kaoline.converter.domain.model.ConversionRate
@@ -41,7 +41,7 @@ class ConvertAmountUseCaseTest {
     @Test
     fun `Convert 0 USD to EUR`() = runTest {
         // Given
-        every { ratesRepository.getRates() } returns listOf(ConversionRate(EUR, 1.58f))
+        coEvery { ratesRepository.getRates() } returns listOf(ConversionRate(EUR, 1.58f))
 
         // When
         val converted = getConversionSuccess(Amount(0f, USD))
@@ -53,7 +53,7 @@ class ConvertAmountUseCaseTest {
     @Test
     fun `Convert 1 USD to EUR`() = runTest {
         // Given
-        every { ratesRepository.getRates() } returns listOf(ConversionRate(EUR, 1.58f))
+        coEvery { ratesRepository.getRates() } returns listOf(ConversionRate(EUR, 1.58f))
 
         // When
         val converted = getConversionSuccess(Amount(1f, USD))
@@ -65,7 +65,7 @@ class ConvertAmountUseCaseTest {
     @Test
     fun `Convert 12345,89 USD to EUR`() = runTest {
         // Given
-        every { ratesRepository.getRates() } returns listOf(ConversionRate(EUR, 1.58f))
+        coEvery { ratesRepository.getRates() } returns listOf(ConversionRate(EUR, 1.58f))
 
         // When
         val converted = getConversionSuccess(Amount(12345.89f, USD))
@@ -77,7 +77,7 @@ class ConvertAmountUseCaseTest {
     @Test
     fun `Convert -25 USD to EUR`() = runTest {
         // Given
-        every { ratesRepository.getRates() } returns listOf(ConversionRate(EUR, 1.58f))
+        coEvery { ratesRepository.getRates() } returns listOf(ConversionRate(EUR, 1.58f))
 
         // When
         val converted = getConversionSuccess(Amount(-25f, USD))
@@ -89,7 +89,7 @@ class ConvertAmountUseCaseTest {
     @Test
     fun `Convert 58 EUR to USD`() = runTest {
         // Given
-        every { ratesRepository.getRates() } returns listOf(ConversionRate(EUR, 1.58f))
+        coEvery { ratesRepository.getRates() } returns listOf(ConversionRate(EUR, 1.58f))
 
         // When
         val converted = getConversionSuccess(Amount(58f, EUR)).find { it.currency == USD }
@@ -101,7 +101,7 @@ class ConvertAmountUseCaseTest {
     @Test
     fun `Convert 18547 JPY to EUR`() = runTest {
         // Given
-        every { ratesRepository.getRates() } returns listOf(
+        coEvery { ratesRepository.getRates() } returns listOf(
             ConversionRate(EUR, 1.58f),
             ConversionRate(JPY, 129f)
         )
@@ -116,7 +116,7 @@ class ConvertAmountUseCaseTest {
     @Test
     fun `When no rate is available, return NoRateAvailableError`() = runTest {
         // Given
-        every { ratesRepository.getRates() } returns emptyList()
+        coEvery { ratesRepository.getRates() } returns emptyList<ConversionRate>()
 
         // When
         val result =
@@ -130,7 +130,7 @@ class ConvertAmountUseCaseTest {
     @Test
     fun `Convert to all available rates and start currency`() = runTest {
         // Given
-        every { ratesRepository.getRates() } returns listOf(
+        coEvery { ratesRepository.getRates() } returns listOf(
             ConversionRate(EUR, 1.58f),
             ConversionRate(JPY, 129f)
         )

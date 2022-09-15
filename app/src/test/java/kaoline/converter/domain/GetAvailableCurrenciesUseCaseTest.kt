@@ -1,6 +1,6 @@
 package kaoline.converter.domain
 
-import io.mockk.every
+import io.mockk.coEvery
 import io.mockk.mockk
 import kaoline.converter.domain.model.ConversionRate
 import kaoline.converter.utils.Result
@@ -33,7 +33,7 @@ class GetAvailableCurrenciesUseCaseTest {
     @Test
     fun `Get all available currencies and USD`() = runTest {
         // Given
-        every { ratesRepository.getRates() } returns listOf(
+        coEvery { ratesRepository.getRates() } returns listOf(
             ConversionRate("EUR", 1.58f),
             ConversionRate("JPY", 156f),
             ConversionRate("ABC", 123f)
@@ -52,7 +52,7 @@ class GetAvailableCurrenciesUseCaseTest {
     @Test
     fun `When no rate is available, return at least USD`() = runTest {
         // Given
-        every { ratesRepository.getRates() } returns emptyList()
+        coEvery { ratesRepository.getRates() } returns emptyList<ConversionRate>()
 
         // When
         val currencies = getRatesSuccess()
