@@ -8,6 +8,7 @@ val appModule = module {
 
     // Domain
     single<IConvertAmountUseCase> { ConvertAmountUseCase(get()) }
+    single<IGetAvailableCurrenciesUseCase> { GetAvailableCurrenciesUseCase(get()) }
 
     viewModel { ConverterViewModel() }
 }
