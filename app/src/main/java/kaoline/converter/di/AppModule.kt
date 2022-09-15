@@ -1,5 +1,8 @@
 package kaoline.converter.di
 
+import androidx.room.Room
+import kaoline.converter.data.cache.AppDatabase
+import kaoline.converter.data.cache.RateDao
 import kaoline.converter.data.network.RatesApiService
 import kaoline.converter.domain.ConvertAmountUseCase
 import kaoline.converter.domain.GetAvailableCurrenciesUseCase
@@ -8,6 +11,7 @@ import kaoline.converter.domain.IGetAvailableCurrenciesUseCase
 import kaoline.converter.ui.main.ConverterViewModel
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
+import org.koin.android.ext.koin.androidContext
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 import retrofit2.Retrofit
@@ -35,6 +39,10 @@ val appModule = module {
             .build()
     }
     single<RatesApiService> { get<Retrofit>().create(RatesApiService::class.java) }
+
+    // Cache
+    single<AppDatabase> { Room.databaseBuilder(androidContext(), AppDatabase::class.java, "database").build() }
+    single<RateDao> { get<AppDatabase>().rateDao() }
 
     // Domain
     single<IConvertAmountUseCase> { ConvertAmountUseCase(get()) }
