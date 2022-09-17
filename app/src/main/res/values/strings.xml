@@ -1,4 +1,7 @@
 <resources>
     <string name="app_name">Converter</string>
     <string name="enter_amount_hint">Enter an amount</string>
+    <string name="no_network_error">No network</string>
+    <string name="incorrect_amount">The value is not correct</string>
+    <string name="no_such_currency">No such currency</string>
 </resources>

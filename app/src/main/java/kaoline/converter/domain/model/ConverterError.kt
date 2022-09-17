@@ -5,4 +5,6 @@ sealed class ConverterError(message: String? = null) : Throwable(message) {
     class ApiError(message: String? = null) : ConverterError(message)
     object RestrictedAccessError : ConverterError()
     object NoRateAvailableError : ConverterError()
+    object IncorrectAmount : ConverterError()
+    object NoSuchCurrency : ConverterError()
 }
