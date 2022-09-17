@@ -55,5 +55,6 @@ val appModule = module {
     single<IConvertAmountUseCase> { ConvertAmountUseCase(get()) }
     single<IGetAvailableCurrenciesUseCase> { GetAvailableCurrenciesUseCase(get()) }
 
-    viewModel { ConverterViewModel() }
+    // UI
+    viewModel { ConverterViewModel(get(), get()) }
 }
