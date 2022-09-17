@@ -6,4 +6,8 @@ package kaoline.converter.domain.model
 data class Amount(
     val amountValue: Float,
     val currency: String
-)
+) {
+    companion object {
+        const val USD = "USD"
+    }
+}
