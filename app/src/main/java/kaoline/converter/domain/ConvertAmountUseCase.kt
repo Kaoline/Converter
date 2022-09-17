@@ -9,7 +9,7 @@ import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.flow
 
 /**
- * Convert any amount to all currencies available
+ * Convert any amount to all currencies available, including the start currency
  */
 class ConvertAmountUseCase(
     private val ratesRepository: IRatesRepository
@@ -20,12 +20,14 @@ class ConvertAmountUseCase(
         val rates = ratesRepository.getRates()
         if (rates.isEmpty()) throw ConverterError.NoRateAvailableError
 
+        // Convert the amount into USD if needed, as the rates available are all from USD
         val usdAmount = if (amount.currency != Amount.USD) {
             val currencyRate = rates.firstOrNull { it.toCurrency == amount.currency }
                 ?: throw ConverterError.NoRateAvailableError
             convert(amount, currencyRate)
         } else amount
 
+        // Convert from USD to all amounts
         val convertedAmount = ratesRepository.getRates().map {
             convert(usdAmount, it)
         }.toMutableList().apply {

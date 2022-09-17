@@ -12,6 +12,10 @@ import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 
+/**
+ * A base view model.
+ * Handle loading state and has a basic error handling.
+ */
 abstract class BaseViewModel: ViewModel() {
 
     protected val _loadingState: MutableLiveData<Boolean> = MutableLiveData(false)

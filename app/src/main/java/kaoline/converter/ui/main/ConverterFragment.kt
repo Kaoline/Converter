@@ -11,6 +11,9 @@ import kaoline.converter.R
 import kaoline.converter.domain.model.ConverterError
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
+/**
+ * The converter page
+ */
 class ConverterFragment : Fragment() {
 
     companion object {

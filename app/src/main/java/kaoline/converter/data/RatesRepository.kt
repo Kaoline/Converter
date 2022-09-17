@@ -11,6 +11,9 @@ class RatesRepository(
     private val ratesApiService: RatesApiService,
     private val rateDao: RateDao
 ) : BaseRepository(), IRatesRepository {
+    /**
+     * Get rates from the database, populate it first from OpenExchange API if needed.
+     */
     override suspend fun getRates(): List<ConversionRate> {
         var cacheData = rateDao.getAllRates()
         if (cacheData.isEmpty()) {

@@ -4,6 +4,10 @@ import kaoline.converter.domain.model.ConverterError
 import retrofit2.Response
 import java.io.IOException
 
+/**
+ * Base class for repositories.
+ * Handles api errors.
+ */
 abstract class BaseRepository {
     protected suspend fun <T> handleErrorsCall(apiCall: suspend () -> Response<T>): T? {
         try {

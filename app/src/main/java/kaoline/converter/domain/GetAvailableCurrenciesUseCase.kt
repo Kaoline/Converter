@@ -6,6 +6,10 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.flow
 
+/**
+ * Get all available currencies.
+ * Add USD if applicable so that the list is never empty.
+ */
 class GetAvailableCurrenciesUseCase(
     private val ratesRepository: IRatesRepository
 ) : IGetAvailableCurrenciesUseCase {

@@ -8,6 +8,10 @@ import kaoline.converter.domain.model.Amount
 import kaoline.converter.domain.model.ConverterError
 import kaoline.converter.ui.base.BaseViewModel
 
+/**
+ * The converter page view model.
+ * Fetch available currencies at init.
+ */
 class ConverterViewModel(
     private val getAvailableCurrencies: IGetAvailableCurrenciesUseCase,
     private val convertAmount: IConvertAmountUseCase
@@ -41,10 +45,16 @@ class ConverterViewModel(
         }
     }
 
+    /**
+     * A correct amount is a float, positive or negative.
+     */
     private fun validateAmount(amount: String): Boolean {
         return amount.toFloatOrNull() != null
     }
 
+    /**
+     * A correct currency is one retrieved from the data layer.
+     */
     private fun validateCurrency(currency: String?): Boolean {
         return _availableCurrencies.value?.contains(currency) ?: false
     }
