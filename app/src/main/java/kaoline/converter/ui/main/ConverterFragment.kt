@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import android.widget.*
 import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.Fragment
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import kaoline.converter.R
 import kaoline.converter.domain.model.ConverterError
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -34,6 +35,7 @@ class ConverterFragment : Fragment() {
 
         val amountEditText = view.findViewById<EditText>(R.id.amount_value_et)
         val currenciesSpinner = view.findViewById<Spinner>(R.id.amount_currency_sp)
+        val swipeRefresh = view.findViewById<SwipeRefreshLayout>(R.id.swipe_refresh)
 
         // Listen to errors
         viewModel.errorEvent.observe(viewLifecycleOwner) {
@@ -42,10 +44,16 @@ class ConverterFragment : Fragment() {
                     is ConverterError.NoNetworkError -> requireContext().getString(R.string.no_network_error)
                     is ConverterError.IncorrectAmount -> requireContext().getString(R.string.incorrect_amount)
                     is ConverterError.NoSuchCurrency -> requireContext().getString(R.string.no_such_currency)
+                    is ConverterError.RefreshTooEarly -> requireContext().getString(R.string.refresh_too_early, error.timeLeftMs / 1000 / 60)
                     else -> "${error}: ${error.message}"
                 }
                 Toast.makeText(requireContext(), message, Toast.LENGTH_LONG).show()
             }
+        }
+
+        // Listen to loading state
+        viewModel.loadingState.observe(viewLifecycleOwner) {
+            swipeRefresh.isRefreshing = it
         }
 
         // Init interactions
@@ -67,6 +75,7 @@ class ConverterFragment : Fragment() {
             }
 
         }
+        swipeRefresh.setOnRefreshListener { viewModel.refresh(amountEditText.text.toString(), currenciesSpinner.selectedItem as? String) }
 
         // Init view population with retrieved data
         viewModel.availableCurrencies.observe(viewLifecycleOwner) {

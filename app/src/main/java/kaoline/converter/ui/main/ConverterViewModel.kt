@@ -7,14 +7,16 @@ import kaoline.converter.domain.IGetAvailableCurrenciesUseCase
 import kaoline.converter.domain.model.Amount
 import kaoline.converter.domain.model.ConverterError
 import kaoline.converter.ui.base.BaseViewModel
+import kaoline.converter.domain.IRefreshRatesUseCase
 
 /**
  * The converter page view model.
  * Fetch available currencies at init.
  */
 class ConverterViewModel(
-    private val getAvailableCurrencies: IGetAvailableCurrenciesUseCase,
-    private val convertAmount: IConvertAmountUseCase
+    getAvailableCurrencies: IGetAvailableCurrenciesUseCase,
+    private val convertAmount: IConvertAmountUseCase,
+    private val refreshRates: IRefreshRatesUseCase
 ) : BaseViewModel() {
 
     private val _availableCurrencies: MutableLiveData<List<String>> = MutableLiveData(emptyList())
@@ -42,6 +44,15 @@ class ConverterViewModel(
                 val amountsString = it.data.map { c -> "${c.currency} ${c.amountValue}" }
                 _convertedAmounts.postValue(amountsString)
             }
+        }
+    }
+
+    /**
+     * Ask for rates refresh and recompute the new converted amounts
+     */
+    fun refresh(amount: String, currency: String?) {
+        collect(refreshRates.performAction()) {
+            onAmountChanged(amount, currency)
         }
     }
 

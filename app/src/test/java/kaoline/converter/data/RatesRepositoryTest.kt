@@ -68,13 +68,13 @@ class RatesRepositoryTest {
         coVerify(exactly = 0) { ratesApiService.getRates() }
     }
 
-    @Test
-    fun `Do not refresh data younger than 30 min`() = runTest {
+    @Test(expected = ConverterError.RefreshTooEarly::class)
+    fun `Do not refresh data younger than 40 min`() = runTest {
         // Given
         every { rateDao.getAllRates() } returns listOf(RateEntity("EUR", 1.58f))
 
         // When
-        ratesRepository.refreshRates()
+        ratesRepository.refreshRates(40 * 60 * 1000)
 
         // Then
         coVerify(exactly = 0) { ratesApiService.getRates() }
@@ -90,9 +90,10 @@ class RatesRepositoryTest {
                 Date.from(Instant.now().minusSeconds(1900))
             )
         )
+        coEvery { ratesApiService.getRates() } returns standardApiResponse
 
         // When
-        ratesRepository.refreshRates()
+        ratesRepository.refreshRates(30 * 60 * 1000)
 
         // Then
         coVerify(exactly = 1) { ratesApiService.getRates() }

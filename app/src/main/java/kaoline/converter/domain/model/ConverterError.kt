@@ -10,4 +10,5 @@ sealed class ConverterError(message: String? = null) : Throwable(message) {
     object NoRateAvailableError : ConverterError()
     object IncorrectAmount : ConverterError()
     object NoSuchCurrency : ConverterError()
+    class RefreshTooEarly(val timeLeftMs: Long) : ConverterError()
 }

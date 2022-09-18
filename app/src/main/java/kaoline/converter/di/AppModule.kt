@@ -54,7 +54,8 @@ val appModule = module {
     // Domain
     single<IConvertAmountUseCase> { ConvertAmountUseCase(get()) }
     single<IGetAvailableCurrenciesUseCase> { GetAvailableCurrenciesUseCase(get()) }
+    single<IRefreshRatesUseCase> { RefreshRatesUseCase(get()) }
 
     // UI
-    viewModel { ConverterViewModel(get(), get()) }
+    viewModel { ConverterViewModel(get(), get(), get()) }
 }
